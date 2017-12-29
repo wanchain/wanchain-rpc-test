@@ -1,8 +1,7 @@
-const {accounts, protocol, host, port, coinSCAddress, coinValue, waitBlockNumber, setSize} = require('../config')
+const {accounts, protocol, host, port, coinSCAddress, coinValue, waitBlockNumber, OTASetSize} = require('../config')
 const utils = require('../utils')
 const assert = require('chai').assert
 const should = require('chai').should()
-
 
 sender = accounts[0]
 recipient1 = accounts[1]
@@ -64,7 +63,7 @@ describe('Public Transaction', function() {
   	});
 })
 
-describe('Private Coin Transaction', function() {
+describe('Private Wan-Coin Transfer', function() {
 	before(async() => {
 		await utils.unlockAccount(sender, "wanglu", 9999)
 		await utils.unlockAccount(recipient1, "wanglu", 9999)
@@ -80,10 +79,12 @@ describe('Private Coin Transaction', function() {
 
 	it('should return wanaddress', async() => {
 		wanAddr = await utils.getWanAddress(recipient1)
+		wanAddr.should.be.a('string')
 	})
 
 	it('shoud generateOTA', async() => {
 		OTA = await utils.genOTA(wanAddr)
+		OTA.should.be.a('string')
 	})
 
 	it('should generate correct buyCoinData', () => {
@@ -120,8 +121,8 @@ describe('Private Coin Transaction', function() {
 	})
 
 	it('should generate an OTA mix set', async() => {
-		OTAMixSet = await utils.getOTAMixSet(OTA, setSize)
-		assert.lengthOf(OTAMixSet, setSize)
+		OTAMixSet = await utils.getOTAMixSet(OTA, OTASetSize)
+		assert.lengthOf(OTAMixSet, OTASetSize)
 	})
 
 	it('should generate key pairs', async() => {

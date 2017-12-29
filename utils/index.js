@@ -1,7 +1,7 @@
-const {accounts, protocol, host, port, coinSCAddress, coinABI} = require('../config')
+const {accounts, protocol, host, port, coinSCAddress, stampSCAddress, tokenSCAddress, coinABI, stampABI, tokenABI} = require('../config')
 const util = require('wanchain-util')
 const Web3 = require('web3')
-const web3 = new Web3(new Web3.providers.HttpProvider(`${protocol}://${host}:${port}`));
+const web3 = new Web3(new Web3.providers.HttpProvider(`${protocol}://${host}:${port}`))
 web3.wan = new util.web3Wan(web3);
 
 const promisify = (inner) => 
@@ -134,6 +134,8 @@ const genRingSignData = (msg, sk, data) =>
 const getBlockNumber = () => web3.eth.blockNumber
 
 const coinSC = web3.eth.contract(coinABI).at(coinSCAddress)
+const stampSC = web3.eth.contract(stampABI).at(stampSCAddress)
+const tokenSC = web3.eth.contract(tokenABI).at(tokenSCAddress)
 	
 const filter = web3.eth.filter('latest')
 
@@ -154,5 +156,7 @@ module.exports = {
 	fromWei,
 	toWei,
 	filter,
-	coinSC
+	coinSC, 
+	stampSC,
+	tokenSC
 }
