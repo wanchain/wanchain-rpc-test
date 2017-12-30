@@ -1,4 +1,4 @@
-const {accounts, protocol, host, port, coinSCAddress, stampSCAddress, tokenSCAddress, coinABI, stampABI, tokenABI} = require('../config')
+const {accounts, protocol, host, port, glueSCAddress, coinSCAddress, stampSCAddress, tokenSCAddress, coinABI, stampABI, tokenABI, glueABI} = require('../config')
 const util = require('wanchain-util')
 const Web3 = require('web3')
 const web3 = new Web3(new Web3.providers.HttpProvider(`${protocol}://${host}:${port}`))
@@ -136,6 +136,7 @@ const getBlockNumber = () => web3.eth.blockNumber
 const coinSC = web3.eth.contract(coinABI).at(coinSCAddress)
 const stampSC = web3.eth.contract(stampABI).at(stampSCAddress)
 const tokenSC = web3.eth.contract(tokenABI).at(tokenSCAddress)
+const glueSC = web3.eth.contract(glueABI).at(glueSCAddress)
 	
 const filter = web3.eth.filter('latest')
 
@@ -158,5 +159,6 @@ module.exports = {
 	filter,
 	coinSC, 
 	stampSC,
-	tokenSC
+	tokenSC,
+	glueSC
 }
