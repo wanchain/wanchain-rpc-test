@@ -1,4 +1,5 @@
 const {accounts, protocol, host, port, glueSCAddress, coinSCAddress, stampSCAddress, tokenSCAddress, coinABI, stampABI, tokenABI, glueABI} = require('../config')
+const BigNumber = require('bignumber.js')
 const util = require('wanchain-util')
 const Web3 = require('web3')
 const web3 = new Web3(new Web3.providers.HttpProvider(`${protocol}://${host}:${port}`))
@@ -30,7 +31,7 @@ const sendTransaction = (obj) =>
 	new Promise((resolve, reject) => {
 		web3.eth.sendTransaction(obj, (err, hash) => {
 			if (err) {
-				console.log(err)
+				console.log('sendTransaction error: ', err)
 				reject(err)
 			}
 
@@ -38,15 +39,39 @@ const sendTransaction = (obj) =>
 		})
 	})
 	
+const sendPrivacyCxtTransaction = (obj, pwd) => 
+	new Promise((resolve, reject) => {
+		web3.wan.sendPrivacyCxtTransaction(obj, pwd, (err, hash) => {
+			if (err) {
+				console.log('sendPrivacyCxtTransaction error: ', err)
+				reject(err)
+			}
+
+			resolve(hash)
+		})
+	})
+
 const getReceipt = (txHash) => 
 	new Promise((resolve, reject) => {
 		web3.eth.getTransactionReceipt(txHash, (err, receipt) => {
 			if (err) {
-				console.log(err)
+				console.log('getReceipt error: ', err)
 				reject(err)
 			}
 
 			resolve(receipt)
+		})
+	})
+
+const getTransaction = (txHash) => 
+	new Promise((resolve, reject) => {
+		web3.eth.getTransaction(txHash, (err, ret) => {
+			if (err) {
+				console.log('getTransaction error: ', err)
+				reject(err)
+			}
+
+			resolve(ret)
 		})
 	})
 
@@ -133,6 +158,14 @@ const genRingSignData = (msg, sk, data) =>
 
 const getBlockNumber = () => web3.eth.blockNumber
 
+const plus = (a, b) => {
+	return new BigNumber(a).plus(new BigNumber(b))
+}
+
+const toBig = (n) => {
+	return new BigNumber(n)
+}
+
 const coinSC = web3.eth.contract(coinABI).at(coinSCAddress)
 const stampSC = web3.eth.contract(stampABI).at(stampSCAddress)
 const tokenSC = web3.eth.contract(tokenABI).at(tokenSCAddress)
@@ -144,6 +177,7 @@ module.exports = {
 	promisify,
 	unlockAccount,
 	sendTransaction,
+	sendPrivacyCxtTransaction, 
 	computeOTAPPKeys,
 	getBalance,
 	getWanAddress,
@@ -152,6 +186,7 @@ module.exports = {
 	getOTAMixSet,
 	genRingSignData, 
 	getReceipt,
+	getTransaction,
 	getBlock,
 	getBlockNumber, 
 	fromWei,
@@ -160,5 +195,7 @@ module.exports = {
 	coinSC, 
 	stampSC,
 	tokenSC,
-	glueSC
+	glueSC, 
+	plus,
+	toBig
 }
