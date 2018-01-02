@@ -158,9 +158,10 @@ const genRingSignData = (msg, sk, data) =>
 
 const getBlockNumber = () => web3.eth.blockNumber
 
-const plus = (a, b) => {
-	return new BigNumber(a).plus(new BigNumber(b))
-}
+const plus = (a, b) => new BigNumber(a).plus(new BigNumber(b))
+
+
+const times = (a, b) => new BigNumber(a).times(new BigNumber(b))
 
 const toBig = (n) => {
 	return new BigNumber(n)
@@ -197,5 +198,6 @@ module.exports = {
 	tokenSC,
 	glueSC, 
 	plus,
+	times,
 	toBig
 }
