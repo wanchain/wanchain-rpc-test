@@ -1,12 +1,10 @@
-const {accounts, protocol, host, port, coinSCAddress, coinValue, waitBlockNumber, setSize} = require('../config')
+const {accounts, protocol, host, port, coinSCAddress, coinValue, waitBlockNumber, OTASetSize} = require('../config')
 const utils = require('../utils')
 const assert = require('chai').assert
 const should = require('chai').should()
 
-
 sender = accounts[0]
 recipient1 = accounts[1]
-recipient2 = accounts[2]
 
 let senderBalanceBefore, 
 	recipient1BalanceBefore, 
@@ -24,47 +22,7 @@ let senderBalanceBefore,
 	OTAMixSet,
 	keyPairs
 
-
-describe('Public Transaction', function() {
-	before(async() => {
-		await utils.unlockAccount(sender, "wanglu", 9999)
-	})
-
-	beforeEach(async() => {
-		senderBalanceBefore = await utils.getBalance(sender)
-    	recipient1BalanceBefore = await utils.getBalance(recipient1)
-    	recipient2BalanceBefore = await utils.getBalance(recipient2)
-	})
-
-	it('should return correct balance of receipt1', async() => {
-
-		const txObj = {
-			from: sender,
-			to: recipient1,
-			value: utils.toWei(1)
-		}
-		const txHash = await utils.sendTransaction(txObj)
-
-		let counter, receipt
-		counter = 0
-		while (counter < waitBlockNumber) {
-			let blockHash = await utils.promisify(cb => utils.filter.watch(cb))
-			receipt = await utils.getReceipt(txHash)
-			if (!receipt) {
-				counter++
-			} else {
-				break
-			}
-		}
-		
-		senderBalanceAfter = await utils.getBalance(sender)
-		recipient1BalanceAfter = await utils.getBalance(recipient1)
-		// assert.equal(Math.ceil(utils.fromWei(recipient1BalanceAfter)), Math.ceil(utils.fromWei(recipient1BalanceBefore) + 1))
-
-  	});
-})
-
-describe('Private Coin Transaction', function() {
+describe('Anonymous Coin Transfer', function() {
 	before(async() => {
 		await utils.unlockAccount(sender, "wanglu", 9999)
 		await utils.unlockAccount(recipient1, "wanglu", 9999)
@@ -74,16 +32,14 @@ describe('Private Coin Transaction', function() {
 		recipient1BalanceBefore = await utils.getBalance(recipient1)
 	})
 
-	beforeEach(async() => {
-		// preparation for each test goes here
-	})
-
 	it('should return wanaddress', async() => {
 		wanAddr = await utils.getWanAddress(recipient1)
+		wanAddr.should.be.a('string')
 	})
 
 	it('shoud generateOTA', async() => {
 		OTA = await utils.genOTA(wanAddr)
+		OTA.should.be.a('string')
 	})
 
 	it('should generate correct buyCoinData', () => {
@@ -91,7 +47,7 @@ describe('Private Coin Transaction', function() {
 		buyCoinData.should.be.a('string')
 	})
 
-	it('should send correct quant wan coin to OTA', async() => {
+	it('should send correct quantity wan coin to OTA', async() => {
 		const txObj = {
 			from: sender,
 			to: coinSCAddress,
@@ -120,8 +76,8 @@ describe('Private Coin Transaction', function() {
 	})
 
 	it('should generate an OTA mix set', async() => {
-		OTAMixSet = await utils.getOTAMixSet(OTA, setSize)
-		assert.lengthOf(OTAMixSet, setSize)
+		OTAMixSet = await utils.getOTAMixSet(OTA, OTASetSize)
+		assert.lengthOf(OTAMixSet, OTASetSize)
 	})
 
 	it('should generate key pairs', async() => {
