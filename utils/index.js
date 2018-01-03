@@ -43,7 +43,7 @@ const sendPrivacyCxtTransaction = (obj, pwd) =>
 	new Promise((resolve, reject) => {
 		web3.wan.sendPrivacyCxtTransaction(obj, pwd, (err, hash) => {
 			if (err) {
-				console.log('sendPrivacyCxtTransaction error: ', err)
+				// console.log('sendPrivacyCxtTransaction error: ', err)
 				reject(err)
 			}
 
@@ -136,7 +136,7 @@ const computeOTAPPKeys = (address, ota) =>
 	new Promise((resolve, reject) => {
 		web3.wan.computeOTAPPKeys(address, ota, (err, ret) => {
 			if (err) {
-				console.log('computeOTAPPKeys error: ', err)
+				// console.log('computeOTAPPKeys error: ', err)
 				reject(err)
 			}
 
@@ -148,7 +148,7 @@ const genRingSignData = (msg, sk, data) =>
 	new Promise((resolve, reject) => {
 		web3.wan.genRingSignData(msg, sk, data, (err, ret) => {
 			if (err) {
-				console.log('genRingSignData error: ', err)
+				// console.log('genRingSignData error: ', err)
 				reject(err)
 			}
 
