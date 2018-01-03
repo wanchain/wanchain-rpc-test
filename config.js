@@ -2,6 +2,8 @@ const config = {};
 
 // web3 parameter
 config.protocol = 'http'
+// config.host = 'localhost'; // http://localhost
+// config.port = 8545;
 config.host = '192.168.1.58'; // http://localhost
 config.port = 5555;
 
@@ -31,6 +33,22 @@ config.accounts = [
 	"0xf073d4e52c506f3f288faa9db1c1e5ae0f1e70f8", 
 	"0x7e98bc5a465c1d2afa6b9376709a525981f53d49", 
 	"0xfb34f7ce48591f3fa6f30a62fcdba8da38583c42"
+]
+
+config.stampsValue = [
+  0.001,
+ 	0.002,
+  0.005,
+  0.003,
+  0.006,
+  0.009,
+ 	0.03,
+  0.06,
+  0.09,
+//  0.5,
+//	1,
+//  1.5
+
 ]
 
 config.waitBlockNumber = 12
