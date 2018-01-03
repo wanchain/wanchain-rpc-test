@@ -1,4 +1,4 @@
-const {accounts, protocol, host, port, coinSCAddress, coinValue, waitBlockNumber, setSize} = require('../config')
+const {accounts, protocol, host, port, coinSCAddress, coinValue, waitBlockNumber, OTASetSize} = require('../config')
 const utils = require('../utils')
 const assert = require('chai').assert
 const expect = require('chai').expect
@@ -53,9 +53,10 @@ describe('wancoin expection input--buy wancoin', function() {
 			exception = e;
 		}
 
+		expectExceptionMsg = 'invalid address';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == 'invalid address', 'exception is : invalid address');
-  	});
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
+	});
 
     it('invalid from: TC1006', async() => {
 		const txObj = {
@@ -72,8 +73,9 @@ describe('wancoin expection input--buy wancoin', function() {
 			exception = e;
 		}
 
+		expectExceptionMsg = 'invalid address';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == 'invalid address', 'exception is : invalid address');
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
     it('invalid from: TC1007', async() => {
@@ -91,8 +93,9 @@ describe('wancoin expection input--buy wancoin', function() {
 			exception = e;
 		}
 
+		expectExceptionMsg = 'invalid address';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == 'invalid address', 'exception is : invalid address');
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -111,8 +114,9 @@ describe('wancoin expection input--buy wancoin', function() {
 			exception = e;
 		}
 
+		expectExceptionMsg = 'invalid address';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == 'invalid address', 'exception is : invalid address');
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
     it('invalid value: TC1010', async() => {
@@ -131,8 +135,9 @@ describe('wancoin expection input--buy wancoin', function() {
 			exception = e;
 		}
 
+		expectExceptionMsg = 'wancoin value is not support';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == 'wancoin value is not support', 'exception is : wancoin value is not support');
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -153,7 +158,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'invalid argument 0: json: cannot unmarshal hex string without 0x prefix into Go struct field SendTxArgs.value of type *hexutil.Big';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -174,7 +179,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'mismatched wancoin value';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -195,7 +200,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'mismatched wancoin value';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -218,7 +223,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'invalid OTA addrss';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -240,7 +245,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'invalid OTA addrss';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
     it('invalid value: TC1017', async() => {
@@ -261,7 +266,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'hex string of odd length';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -283,7 +288,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'hex string without 0x prefix';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -305,7 +310,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'invalid hex string';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -327,7 +332,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'empty hex string';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -349,7 +354,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'invalid OTA addrss';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -371,7 +376,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'empty hex string';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -393,7 +398,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'mismatched wancoin value';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
     it('invalid value: TC1025', async() => {
@@ -414,7 +419,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'mismatched wancoin value';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -436,7 +441,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'mismatched wancoin value';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -458,7 +463,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'mismatched wancoin value';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -480,7 +485,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'new BigNumber() not a number: text';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -524,7 +529,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'mismatched wancoin value';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -546,7 +551,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'invalid argument 0: json: cannot unmarshal hex string without 0x prefix into Go struct field SendTxArgs.data of type hexutil.Bytes';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -569,7 +574,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'error in buy coin';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -591,7 +596,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'error parameters';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -613,7 +618,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'invalid argument 0: json: cannot unmarshal invalid hex string into Go struct field SendTxArgs.data of type hexutil.Bytes';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
     it('invalid value: TC1036', async() => {
@@ -634,7 +639,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'error parameters';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -656,7 +661,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'invalid argument 0: json: cannot unmarshal non-string into Go struct field SendTxArgs.data of type hexutil.Bytes';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 })
@@ -691,7 +696,7 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'intrinsic gas too low';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
     it('invalid gas: TC1040', async() => {
@@ -712,7 +717,50 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'invalid argument 0: json: cannot unmarshal hex string without 0x prefix into Go struct field SendTxArgs.gas of type *hexutil.Big';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
+	});
+
+    it('invalid gas: TC1040', async() => {
+        var exception = null;
+		try{
+			const txObj = {
+				from:sender,
+				to: coinSCAddress,
+				value: utils.toWei(coinValue),
+				data: buyCoinData,
+				gas: '-10000000'
+			}
+
+			const txHash = await utils.sendTransaction(txObj);
+		}catch (e){
+			exception = e;
+		}
+
+		expectExceptionMsg = 'invalid argument 0: json: cannot unmarshal hex string without 0x prefix into Go struct field SendTxArgs.gas of type *hexutil.Big';
+		assert(exception != null, 'exception is not null');
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
+	});
+
+
+    it('invalid gas: TC1040', async() => {
+        var exception = null;
+		try{
+			const txObj = {
+				from:sender,
+				to: coinSCAddress,
+				value: utils.toWei(coinValue),
+				data: buyCoinData,
+				gas: '-0x10000000'
+			}
+
+			const txHash = await utils.sendTransaction(txObj);
+		}catch (e){
+			exception = e;
+		}
+
+		expectExceptionMsg = 'invalid argument 0: json: cannot unmarshal hex string without 0x prefix into Go struct field SendTxArgs.gas of type *hexutil.Big';
+		assert(exception != null, 'exception is not null');
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 
@@ -734,11 +782,10 @@ describe('wancoin expection input--buy wancoin', function() {
 
 		expectExceptionMsg = 'new BigNumber() not a number: dsafdagfdsh';
 		assert(exception != null, 'exception is not null');
-		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg);
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 
 })
-
 
 
 describe('wancoin expection input--buy wancoin', function() {
@@ -815,6 +862,50 @@ describe('wancoin expection input--buy wancoin', function() {
 		assert(exception != null, 'exception is not null');
 		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
+
+
+    it('invalid gasprice: TC1044', async() => {
+        var exception = null;
+		try{
+			const txObj = {
+				from:sender,
+				to: coinSCAddress,
+				value: utils.toWei(coinValue),
+				data: buyCoinData,
+				gasprice: '-20000000000'
+			}
+
+			const txHash = await utils.sendTransaction(txObj);
+		}catch (e){
+			exception = e;
+		}
+
+		expectExceptionMsg = 'invalid argument 0: json: cannot unmarshal hex string without 0x prefix into Go struct field SendTxArgs.gasPrice of type *hexutil.Big';
+		assert(exception != null, 'exception is not null');
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
+	});
+
+    it('invalid gasprice: TC1044', async() => {
+        var exception = null;
+		try{
+			const txObj = {
+				from:sender,
+				to: coinSCAddress,
+				value: utils.toWei(coinValue),
+				data: buyCoinData,
+				gasprice: '-0x20000000000'
+			}
+
+			const txHash = await utils.sendTransaction(txObj);
+		}catch (e){
+			exception = e;
+		}
+
+		expectExceptionMsg = 'invalid argument 0: json: cannot unmarshal hex string without 0x prefix into Go struct field SendTxArgs.gasPrice of type *hexutil.Big';
+		assert(exception != null, 'exception is not null');
+		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
+	});
+
 
     it('invalid gasprice: TC1045', async() => {
         var exception = null;
@@ -1140,7 +1231,7 @@ describe('wancoin expection input--generate ring sign data', function() {
 		}
 
     	keyPairs = (await utils.computeOTAPPKeys(recipient1, OTA)).split('+');
-	    OTAMixSet = await utils.getOTAMixSet(OTA, setSize);
+	    OTAMixSet = await utils.getOTAMixSet(OTA, OTASetSize);
 	})
 
 	beforeEach(async() => {
@@ -1269,7 +1360,7 @@ describe('wancoin expection input--generate ring sign data', function() {
 		}
 
 		keyPairs = (await utils.computeOTAPPKeys(recipient1, OTA)).split('+');
-		OTAMixSet = await utils.getOTAMixSet(OTA, setSize);
+		OTAMixSet = await utils.getOTAMixSet(OTA, OTASetSize);
 	})
 
     beforeEach(async() => {
@@ -1527,7 +1618,7 @@ describe('wancoin expection input--refund wancoin', function() {
 		}
 
 		keyPairs = (await utils.computeOTAPPKeys(recipient1, OTA)).split('+');
-		OTAMixSet = await utils.getOTAMixSet(OTA, setSize);
+		OTAMixSet = await utils.getOTAMixSet(OTA, OTASetSize);
 	    ringSignData = await utils.genRingSignData(recipient1, keyPairs[0], OTAMixSet.join('+'));
 	})
 
@@ -1887,7 +1978,7 @@ describe('wancoin expection input--refund wancoin', function() {
 		}
 
 		keyPairs = (await utils.computeOTAPPKeys(recipient1, OTA)).split('+');
-		OTAMixSet = await utils.getOTAMixSet(OTA, setSize);
+		OTAMixSet = await utils.getOTAMixSet(OTA, OTASetSize);
 		ringSignData = await
 		utils.genRingSignData(recipient1, keyPairs[0], OTAMixSet.join('+'));
 	    refundCoinData = utils.coinSC.refundCoin.getData(ringSignData, utils.toWei(coinValue));
@@ -2160,7 +2251,7 @@ describe('wancoin expection input--refund wancoin', function() {
 		}
 
 		keyPairs = (await utils.computeOTAPPKeys(recipient1, OTA)).split('+');
-		OTAMixSet = await utils.getOTAMixSet(OTA, setSize);
+		OTAMixSet = await utils.getOTAMixSet(OTA, OTASetSize);
 		ringSignData = await utils.genRingSignData(recipient1, keyPairs[0], OTAMixSet.join('+'));
 		refundCoinData = utils.coinSC.refundCoin.getData(ringSignData, utils.toWei(coinValue));
 	})
@@ -2282,7 +2373,7 @@ describe('wancoin expection input--refund wancoin', function() {
 		}
 
 		keyPairs = (await utils.computeOTAPPKeys(recipient1, OTA)).split('+');
-		OTAMixSet = await utils.getOTAMixSet(OTA, setSize);
+		OTAMixSet = await utils.getOTAMixSet(OTA, OTASetSize);
 		ringSignData = await utils.genRingSignData(recipient1, keyPairs[0], OTAMixSet.join('+'));
 		refundCoinData = utils.coinSC.refundCoin.getData(ringSignData, utils.toWei(coinValue));
 	})
@@ -2376,5 +2467,4 @@ describe('wancoin expection input--refund wancoin', function() {
 		assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 	});
 })
-
 
