@@ -3,7 +3,6 @@ const utils = require('../utils')
 const assert = require('chai').assert
 const expect = require('chai').expect
 const should = require('chai').should()
-const prompt = require('prompt')
 
 let senderBalanceBefore,
 	recipient1BalanceBefore, 
@@ -90,7 +89,9 @@ describe('block usedgas equilibrium', function() {
 		//
 
         // beginBlockNum = 75000;
-    	beginBlockNum = 103272;
+    	//beginBlockNum = 103272;
+	    beginBlockNum = 108357;
+
 		endBlockNum = -1;
 
 		var lastBlockNum = utils.getBlockNumber();
