@@ -8,82 +8,82 @@ sender = accounts[0]
 recipient1 = accounts[1]
 
 let senderBalanceBefore,
-	recipient1BalanceBefore,
-	recipient2BalanceBefore,
-	senderBalanceAfter,
-	recipient1BalanceAfter,
-	recipient2BalanceAfter,
-	OTAAltTokenBalance,
+  recipient1BalanceBefore,
+  recipient2BalanceBefore,
+  senderBalanceAfter,
+  recipient1BalanceAfter,
+  recipient2BalanceAfter,
+  OTAAltTokenBalance,
 
-	tokenSender,
-	tokenRecipient,
+  tokenSender,
+  tokenRecipient,
 
-	wanAddr,
-	wanAddrR,
-	OTAStamp,
-	OTAStampBalance,
-	OTAAltTokenSender,
-	OTAAltTokenRecipient,
+  wanAddr,
+  wanAddrR,
+  OTAStamp,
+  OTAStampBalance,
+  OTAAltTokenSender,
+  OTAAltTokenRecipient,
 
-	stampRingSignData,
-	buyStampData,
-	mintTokenData,
-	refundCoinData,
-	combinedData,
+  stampRingSignData,
+  buyStampData,
+  mintTokenData,
+  refundCoinData,
+  combinedData,
 
-	blockNumber,
-	StampOTAMixSet,
+  blockNumber,
+  StampOTAMixSet,
 
-	KPsOTAStamp,
-	KPsOTAAltTokenSender,
-	KPsOTAAltTokenRecipient,
+  KPsOTAStamp,
+  KPsOTAAltTokenSender,
+  KPsOTAAltTokenRecipient,
 
-	skOTAStamp,
-	skOTAAltTokenSender,
-	skOTAAltTokenRecipient
+  skOTAStamp,
+  skOTAAltTokenSender,
+  skOTAAltTokenRecipient
 
 describe('Anonymous Alt-Token Transfer', function() {
-	before(async() => {
-		await utils.unlockAccount(sender, "wanglu", 9999)
-		await utils.unlockAccount(recipient1, "wanglu", 9999)
+  before(async() => {
+    await utils.unlockAccount(sender, "wanglu", 9999)
+    await utils.unlockAccount(recipient1, "wanglu", 9999)
 
-		tokenSender,
-		tokenRecipient,
-		wanAddr,
-		wanAddrR,
-		OTAStamp,
-		OTAStampBalance,
-		OTAAltTokenSender,
-		OTAAltTokenRecipient,
-		combinedData,
-		stampRingSignData,
-		buyStampData,
-		mintTokenData,
-		refundCoinData,
-		blockNumber,
-		skOTAStamp,
-		skOTAAltTokenSender,
-		skOTAAltTokenRecipient = ''
+    tokenSender,
+    tokenRecipient,
+    wanAddr,
+    wanAddrR,
+    OTAStamp,
+    OTAStampBalance,
+    OTAAltTokenSender,
+    OTAAltTokenRecipient,
+    combinedData,
+    stampRingSignData,
+    buyStampData,
+    mintTokenData,
+    refundCoinData,
+    blockNumber,
+    skOTAStamp,
+    skOTAAltTokenSender,
+    skOTAAltTokenRecipient = ''
 
-		StampOTAMixSet,
-		KPsOTAStamp,
-		KPsOTAAltTokenSender,
-		KPsOTAAltTokenRecipient = []
+    StampOTAMixSet,
+    KPsOTAStamp,
+    KPsOTAAltTokenSender,
+    KPsOTAAltTokenRecipient = []
 
-		recipient1BalanceBefore = await utils.getBalance(recipient1)
-	})
+    recipient1BalanceBefore = await utils.getBalance(recipient1)
+  })
 
-	beforeEach(() => {
+  beforeEach(() => {
 
-	})
+  })
 
-	it("should return sender's and recipient's wanchain addressess", async() => {
-		wanAddr = await utils.getWanAddress(sender)
-		wanAddrR = await utils.getWanAddress(recipient1)
+  it("should return sender's and recipient's wanchain addressess", async() => {
+    wanAddr = await utils.getWanAddress(sender)
+    wanAddrR = await utils.getWanAddress(recipient1)
 
-		wanAddr.should.be.a('string')
-		wanAddrR.should.be.a('string')
-	})
+    wanAddr.should.be.a('string')
+    wanAddrR.should.be.a('string')
+  })
 
 
     it("Buy stamp normal", async() => {
@@ -133,7 +133,7 @@ describe('Anonymous Alt-Token Transfer', function() {
 
 
     it("TC2006", async() => {
-    		i = 0
+        i = 0
         OTAStamp = await utils.genOTA(wanAddr)
         OTAAltTokenSender = await utils.genOTA(wanAddr)
         OTAAltTokenRecipient = await utils.genOTA(wanAddrR)
@@ -167,7 +167,7 @@ describe('Anonymous Alt-Token Transfer', function() {
 
     it("TC2007", async() => {
 
-    	i = 0
+      i = 0
       OTAStamp = await utils.genOTA(wanAddr)
       OTAAltTokenSender = await utils.genOTA(wanAddr)
       OTAAltTokenRecipient = await utils.genOTA(wanAddrR)
@@ -202,7 +202,7 @@ describe('Anonymous Alt-Token Transfer', function() {
 
     it("TC2008", async() => {
 
-    	i = 0
+      i = 0
 
       OTAStamp = await utils.genOTA(wanAddr)
       OTAAltTokenSender = await utils.genOTA(wanAddr)
@@ -238,7 +238,7 @@ describe('Anonymous Alt-Token Transfer', function() {
 
     it("TC2009", async() => {
 
-    	i = 0
+      i = 0
 
       OTAStamp = await utils.genOTA(wanAddr)
       OTAAltTokenSender = await utils.genOTA(wanAddr)
