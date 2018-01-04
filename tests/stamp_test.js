@@ -442,8 +442,8 @@ describe('Anonymous Alt-Token Transfer', function() {
         exception = e;
       }
 
-      expectExceptionMsg = 'invalid input param!';
-      assert(exception != null, 'invalid input param!');
+      expectExceptionMsg = 'invalid OTA AX';
+      assert(exception != null, 'invalid OTA AX');
       assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 
 
@@ -479,8 +479,8 @@ describe('Anonymous Alt-Token Transfer', function() {
         exception = e;
       }
 
-      expectExceptionMsg = 'invalid input param!';
-      assert(exception != null, 'invalid input param!');
+      expectExceptionMsg = 'invalid OTA AX';
+      assert(exception != null, 'invalid OTA AX');
       assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
     })
 
@@ -514,8 +514,8 @@ describe('Anonymous Alt-Token Transfer', function() {
         exception = e;
       }
 
-      expectExceptionMsg = 'invalid input param!';
-      assert(exception != null, 'invalid input param!');
+      expectExceptionMsg = 'invalid OTA AX';
+      assert(exception != null, 'invalid OTA AX');
       assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
     })
 
@@ -657,8 +657,8 @@ describe('Anonymous Alt-Token Transfer', function() {
         exception = e;
       }
 
-      expectExceptionMsg = 'invalid input param!';
-      assert(exception != null, 'invalid input param!');
+      expectExceptionMsg = 'invalid OTA AX';
+      assert(exception != null, 'invalid OTA AX');
       assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
 
     })
