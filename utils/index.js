@@ -22,9 +22,14 @@ const unlockAccount = (account, pwd, duration) =>
 		resolve(web3.personal.unlockAccount(account, pwd, duration))
 	)
 
-const getBalance = (account) => 
+const getBalance = (account) =>
 	new Promise((resolve) => 
 		resolve(web3.eth.getBalance(account))
+	)
+
+const getBalance2 = (account, blockNumber) =>
+	new Promise((resolve) =>
+		resolve(web3.eth.getBalance(account, blockNumber))
 	)
 
 const sendTransaction = (obj) =>
@@ -181,6 +186,7 @@ module.exports = {
 	sendPrivacyCxtTransaction, 
 	computeOTAPPKeys,
 	getBalance,
+    getBalance2,
 	getWanAddress,
 	genOTA,
 	getOTABalance,

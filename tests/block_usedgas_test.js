@@ -60,10 +60,10 @@ async function IsGasAddToMiner(block, totalGasFee) {
     	preBlockNumber = 0;
 	}
 
-	var minerPreBalance = await utils.getBalance(block.miner, preBlockNumber);
+	var minerPreBalance = await utils.getBalance2(block.miner, preBlockNumber);
     console.log("miner:" + block.miner + ", preBlockNum:" + preBlockNumber + ", preBalance:" + minerPreBalance);
 
-    var minerBalance = await utils.getBalance(block.miner, block.number);
+    var minerBalance = await utils.getBalance2(block.miner, block.number);
     console.log("miner:" + block.miner + ", blockNum:" + block.number + ", balance:" + minerBalance);
 
     increment = utils.toBig(minerBalance).minus(minerPreBalance);
