@@ -1,10 +1,17 @@
+<<<<<<< Updated upstream
 const {accounts, protocol, host, port, coinSCAddress, stampSCAddress, tokenSCAddress, stampFaceValue, waitBlockNumber, OTASetSize, tokenValue, tokenTransferGasPrice} = require('../config')
+=======
+const {accounts, protocol, host, port, coinSCAddress, stampSCAddress, tokenSCAddress, stampFaceValue, waitBlockNumber, OTASetSize, tokenValue} = require('../config')
+>>>>>>> Stashed changes
 const utils = require('../utils')
 const assert = require('chai').assert
 const expect = require('chai').expect
 const should = require('chai').should()
+<<<<<<< Updated upstream
 const errInvalidRingSignData = new Error('invalid ring signed info')
 
+=======
+>>>>>>> Stashed changes
 
 sender = accounts[0]
 recipient1 = accounts[1]
@@ -45,8 +52,12 @@ let senderBalanceBefore,
 	skOTAAltTokenRecipient
 
 
+<<<<<<< Updated upstream
 
 describe('Anonymous Alt-Token Transfer - [TC2002]: Should PASS', function() {
+=======
+describe('Anonymous Alt-Token Transfer', function() {
+>>>>>>> Stashed changes
 	before(async() => {
 		await utils.unlockAccount(sender, "wanglu", 9999)
 		await utils.unlockAccount(recipient1, "wanglu", 9999)
@@ -204,7 +215,17 @@ describe('Anonymous Alt-Token Transfer - [TC2002]: Should PASS', function() {
 	})
 
 	it('should generate stampRingSignData', async() => {
+<<<<<<< Updated upstream
 		stampRingSignData = await utils.genRingSignData(tokenSender, skOTAStamp, StampOTAMixSet.join('+'))
+=======
+		// 0x03e2e552cee8d95053a20bd8bba20c10cd480a009b42e8820761b02f05b1ef4de703c7386ae146707f6bceb3bd8367ac233c8e60cd57e6010d6fb1e7320ed7df2ee6
+		// 0x03aa60aedbf0b089559546b3d07471c8e4006b4fb4d256c974a831ad158b49f2030321d99439c520a51544fb67acb6f68a5b5953c81f2e7ce1abc2641709a9c47b89
+		// 0xb83d700f67985e406515e562bf2806c9393cc1d7
+		stampRingSignData = await utils.genRingSignData(tokenSender, skOTAStamp, StampOTAMixSet.join('+'))
+
+		// StampOTAMixSet[1] = '0x03e2e552cee8d95053a20bd8bba20c10cd480a009b42e8820761b02f05b1ef4de703c7386ae146707f6bceb3bd8367ac233c8e60cd57e6010d6fb1e7320ed7df'
+		// stampRingSignData = await utils.genRingSignData(tokenSender, skOTAStamp, StampOTAMixSet.join('+'))
+>>>>>>> Stashed changes
 		stampRingSignData.should.be.a('string')
 	})
 
@@ -219,7 +240,11 @@ describe('Anonymous Alt-Token Transfer - [TC2002]: Should PASS', function() {
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
+<<<<<<< Updated upstream
 			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
+=======
+			gasprice:'0x' + (20000000000).toString(16),
+>>>>>>> Stashed changes
 			gas: '0x0'
 		}
 
@@ -243,6 +268,7 @@ describe('Anonymous Alt-Token Transfer - [TC2002]: Should PASS', function() {
 		assert.equal(utils.fromWei(fee), stampFaceValue)
 		assert.equal(utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)), tokenValue)
 	})
+<<<<<<< Updated upstream
 })
 
 describe('Anonymous Alt-Token Transfer - [TC2048]: sendPrivacyCxtTransaction without from filed', function() {
@@ -8165,3 +8191,7 @@ describe('Anonymous Alt-Token Transfer - [TC2129]: sendPrivacyCxtTransaction wit
 	})
 })
 
+=======
+
+})
+>>>>>>> Stashed changes
