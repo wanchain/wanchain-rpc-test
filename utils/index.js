@@ -1,4 +1,4 @@
-const {accounts, protocol, host, port, glueSCAddress, coinSCAddress, stampSCAddress, tokenSCAddress, coinABI, stampABI, tokenABI, glueABI} = require('../config')
+const {accounts, protocol, host, port, glueSCAddress, coinSCAddress, stampSCAddress, tokenSCAddress, coinABI, stampABI, tokenABI, glueABI, debug} = require('../config')
 const BigNumber = require('bignumber.js')
 const util = require('wanchain-util')
 const Web3 = require('web3')
@@ -36,7 +36,9 @@ const sendTransaction = (obj) =>
 	new Promise((resolve, reject) => {
 		web3.eth.sendTransaction(obj, (err, hash) => {
 			if (err) {
-				console.log('sendTransaction error: ', err)
+			    if (debug) {
+                    console.log('sendTransaction error: ', err)
+                }
 				reject(err)
 			}
 			resolve(hash)
@@ -128,7 +130,9 @@ const getOTAMixSet = (ota, qty) =>
 	new Promise((resolve, reject) => {
 		web3.wan.getOTAMixSet(ota, qty, (err, ret) => {
 			if (err) {
-				console.log('getOTAMixSet error: ', err)
+				if (debug) {
+                    console.log('getOTAMixSet error: ', err)
+				}
 				reject(err)
 			}
 
