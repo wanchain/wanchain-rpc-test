@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "bignumber.js": "^5.0.0",
-    "web3": "^0.20.0",
-    "wanchain-util": "git+https://github.com/wanchain/wanchain-util.git"
+    "wanchain-util": "git+https://github.com/wanchain/wanchain-util.git",
+    "web3": "^0.20.0"
   }
 }

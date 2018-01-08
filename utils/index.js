@@ -39,7 +39,6 @@ const sendTransaction = (obj) =>
 				console.log('sendTransaction error: ', err)
 				reject(err)
 			}
-
 			resolve(hash)
 		})
 	})

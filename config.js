@@ -61,6 +61,7 @@ config.coinValue = 10
 
 // alts transfer test
 config.tokenValue = 100
-config.stampFaceValue = 0.09
+config.stampFaceValue = 0.5
+config.tokenTransferGasPrice = 200000000000
 
 module.exports = config;

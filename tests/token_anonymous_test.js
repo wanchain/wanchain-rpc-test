@@ -1,10 +1,10 @@
-const {accounts, protocol, host, port, coinSCAddress, stampSCAddress, tokenSCAddress, stampFaceValue, waitBlockNumber, OTASetSize, tokenValue} = require('../config')
+const {accounts, protocol, host, port, coinSCAddress, stampSCAddress, tokenSCAddress, stampFaceValue, waitBlockNumber, OTASetSize, tokenValue, tokenTransferGasPrice} = require('../config')
 const utils = require('../utils')
 const assert = require('chai').assert
 const expect = require('chai').expect
 const should = require('chai').should()
-
 const errInvalidRingSignData = new Error('invalid ring signed info')
+
 
 sender = accounts[0]
 recipient1 = accounts[1]
@@ -43,6 +43,7 @@ let senderBalanceBefore,
 	skOTAStamp,
 	skOTAAltTokenSender,
 	skOTAAltTokenRecipient
+
 
 
 describe('Anonymous Alt-Token Transfer - [TC2002]: Should PASS', function() {
@@ -198,23 +199,12 @@ describe('Anonymous Alt-Token Transfer - [TC2002]: Should PASS', function() {
 	})	
 
 	it('should generate otatransfer data', () => {
-		// otaTransferData = utils.tokenSC.otatransfer.getData(tokenRecipient, OTAAltTokenRecipient, utils.toWei(tokenValue))
 		otaTransferData = utils.tokenSC.otatransfer.getData(tokenRecipient, OTAAltTokenRecipient, utils.toWei(tokenValue))
 		otaTransferData.should.be.a('string')
 	})
 
 	it('should generate stampRingSignData', async() => {
-		// 0x03e2e552cee8d95053a20bd8bba20c10cd480a009b42e8820761b02f05b1ef4de703c7386ae146707f6bceb3bd8367ac233c8e60cd57e6010d6fb1e7320ed7df2ee6
-		// 0x03aa60aedbf0b089559546b3d07471c8e4006b4fb4d256c974a831ad158b49f2030321d99439c520a51544fb67acb6f68a5b5953c81f2e7ce1abc2641709a9c47b89
-		// 0xb83d700f67985e406515e562bf2806c9393cc1d7
-		// StampOTAMixSet[1] = '0x'
-		// console.log(StampOTAMixSet[1])
-		// StampOTAMixSet[1] = StampOTAMixSet[1].substring(2)
-		// console.log(StampOTAMixSet[1])
-		// stampRingSignData = await utils.genRingSignData(tokenSender, skOTAStamp, 123939473738382736363883737373672262734404838272626262626)
-
 		stampRingSignData = await utils.genRingSignData(tokenSender, skOTAStamp, StampOTAMixSet.join('+'))
-		// console.log('stampRingSignData: ', stampRingSignData)
 		stampRingSignData.should.be.a('string')
 	})
 
@@ -229,7 +219,7 @@ describe('Anonymous Alt-Token Transfer - [TC2002]: Should PASS', function() {
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -427,7 +417,7 @@ describe('Anonymous Alt-Token Transfer - [TC2048]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -615,7 +605,7 @@ describe('Anonymous Alt-Token Transfer - [TC2049]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -803,7 +793,7 @@ describe('Anonymous Alt-Token Transfer - [TC2050]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -991,7 +981,7 @@ describe('Anonymous Alt-Token Transfer - [TC2051]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -1179,36 +1169,36 @@ describe('Anonymous Alt-Token Transfer - [TC2052]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
-		// let err, sklen
-		// sklen = skOTAAltTokenSender.length
-		// try {
+		let err, sklen
+		sklen = skOTAAltTokenSender.length
+		try {
 			const txHash = await utils.sendPrivacyCxtTransaction(txObj, skOTAAltTokenSender)
-		// } catch (e) {
-			// err = e
-		// }
-		// assert.equal(err.message, 'invalid address')
-
-		let counter, receipt, txInfo, fee
-		counter = 0
-		while (counter < 20) {
-			let blockHash = await utils.promisify(cb => utils.filter.watch(cb))
-			receipt = await utils.getReceipt(txHash)
-			if (!receipt) {
-				counter++
-			} else {
-				txInfo = await utils.getTransaction(txHash)
-				blockNumber = utils.getBlockNumber()
-				break
-			}
+		} catch (e) {
+			err = e
 		}
+		assert.equal(err.message, 'from address mismatch private key')
 
-		fee = utils.times(txInfo.gasPrice.toNumber(), receipt.gasUsed)
-		assert.equal(utils.fromWei(fee), stampFaceValue)
-		assert.equal(utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)), tokenValue)
+		// let counter, receipt, txInfo, fee
+		// counter = 0
+		// while (counter < 20) {
+		// 	let blockHash = await utils.promisify(cb => utils.filter.watch(cb))
+		// 	receipt = await utils.getReceipt(txHash)
+		// 	if (!receipt) {
+		// 		counter++
+		// 	} else {
+		// 		txInfo = await utils.getTransaction(txHash)
+		// 		blockNumber = utils.getBlockNumber()
+		// 		break
+		// 	}
+		// }
+
+		// fee = utils.times(txInfo.gasPrice.toNumber(), receipt.gasUsed)
+		// assert.equal(utils.fromWei(fee), stampFaceValue)
+		// assert.equal(utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)), tokenValue)
 	})
 })
 
@@ -1385,7 +1375,7 @@ describe('Anonymous Alt-Token Transfer - [TC2054]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x01,
-			gasprice:'0x' + (20000000000).toString(16)
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16)
 		}
 
 		let err, sklen
@@ -1572,7 +1562,7 @@ describe('Anonymous Alt-Token Transfer - [TC2055]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0xff,
-			gasprice:'0x' + (20000000000).toString(16)
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16)
 		}
 
 		let err, sklen
@@ -1759,7 +1749,7 @@ describe('Anonymous Alt-Token Transfer - [TC2056]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: '12345',
-			gasprice:'0x' + (20000000000).toString(16)
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16)
 		}
 
 		let err, sklen
@@ -1946,7 +1936,7 @@ describe('Anonymous Alt-Token Transfer - [TC2057]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 100,
-			gasprice:'0x' + (20000000000).toString(16)
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16)
 		}
 
 		let err, sklen
@@ -2133,7 +2123,7 @@ describe('Anonymous Alt-Token Transfer - [TC2058]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0,
-			gasprice:'0x' + (20000000000).toString(16)
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16)
 		}
 
 		// let err, sklen
@@ -2508,7 +2498,7 @@ describe('Anonymous Alt-Token Transfer - [TC2061]: genRingSignData with hashMsg 
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -2698,7 +2688,7 @@ describe('Anonymous Alt-Token Transfer - [TC2062]: genRingSignData with truncate
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -2887,7 +2877,7 @@ describe('Anonymous Alt-Token Transfer - [TC2063]: genRingSignData with expanded
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -3076,7 +3066,7 @@ describe('Anonymous Alt-Token Transfer - [TC2064]: genRingSignData with tampered
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -4105,7 +4095,7 @@ describe('Anonymous Alt-Token Transfer - [TC2071]: genRingSignData with tampered
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -4461,7 +4451,7 @@ describe('Anonymous Alt-Token Transfer - [TC2073]: genRingSignData with recipien
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -4649,7 +4639,7 @@ describe('Anonymous Alt-Token Transfer - [TC2109]: combinedData with empty ringS
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -4840,7 +4830,7 @@ describe('Anonymous Alt-Token Transfer - [TC2110]: combinedData with "Ox" ringSi
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -5032,7 +5022,7 @@ describe('Anonymous Alt-Token Transfer - [TC2111]: combinedData with illegal tru
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -5224,7 +5214,7 @@ describe('Anonymous Alt-Token Transfer - [TC2112]: combinedData with illegal exp
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -5416,7 +5406,7 @@ describe('Anonymous Alt-Token Transfer - [TC2113]: combinedData with tampered ri
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -5607,7 +5597,7 @@ describe('Anonymous Alt-Token Transfer - [TC2114]: combinedData with numerical r
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -5798,7 +5788,7 @@ describe('Anonymous Alt-Token Transfer - [TC2116]: combinedData with empty cxtIn
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -6000,7 +5990,7 @@ describe('Anonymous Alt-Token Transfer - [TC2117]: combinedData with "0x" cxtInt
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -6207,7 +6197,7 @@ describe('Anonymous Alt-Token Transfer - [TC2118]: combinedData with truncated c
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -6414,7 +6404,7 @@ describe('Anonymous Alt-Token Transfer - [TC2119]: combinedData with expanded cx
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -6621,7 +6611,7 @@ describe('Anonymous Alt-Token Transfer - [TC2120]: combinedData with tampered cx
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -6828,7 +6818,7 @@ describe('Anonymous Alt-Token Transfer - [TC2121]: combinedData with numerical c
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -7029,7 +7019,7 @@ describe('Anonymous Alt-Token Transfer - [TC2123]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -7220,7 +7210,7 @@ describe('Anonymous Alt-Token Transfer - [TC2124]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -7408,7 +7398,7 @@ describe('Anonymous Alt-Token Transfer - [TC2125]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -7596,7 +7586,7 @@ describe('Anonymous Alt-Token Transfer - [TC2126]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -7784,7 +7774,7 @@ describe('Anonymous Alt-Token Transfer - [TC2127]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -7795,7 +7785,7 @@ describe('Anonymous Alt-Token Transfer - [TC2127]: sendPrivacyCxtTransaction wit
 		} catch (e) {
 			err = e
 		}
-		assert.equal(err.message, 'invalid ring signed info')
+		assert.equal(err.message, 'from address mismatch private key')
 	})
 })
 
@@ -7972,7 +7962,7 @@ describe('Anonymous Alt-Token Transfer - [TC2128]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -8160,7 +8150,7 @@ describe('Anonymous Alt-Token Transfer - [TC2129]: sendPrivacyCxtTransaction wit
 			to: tokenSCAddress,
 			data: combinedData,
 			value: 0x0,
-			gasprice:'0x' + (20000000000).toString(16),
+			gasprice:'0x' + (tokenTransferGasPrice).toString(16),
 			gas: '0x0'
 		}
 
@@ -8171,6 +8161,7 @@ describe('Anonymous Alt-Token Transfer - [TC2129]: sendPrivacyCxtTransaction wit
 		} catch (e) {
 			err = e
 		}
-		assert.equal(err.message, 'invalid ring signed info')
+		assert.equal(err.message, 'from address mismatch private key')
 	})
 })
+
