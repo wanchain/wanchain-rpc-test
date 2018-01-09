@@ -1378,6 +1378,7 @@ describe('Abnormal input test -- generate ring sign data', function() {
 
 describe('Abnormal input test -- refund wancoin', function() {
     before(async() => {
+        await utils.unlockAccount(recipient1, "wanglu", 999999999);
         wanAddr = await utils.getWanAddress(recipient1);
         OTA = await utils.genOTA(wanAddr);
         buyCoinData = utils.coinSC.buyCoinNote.getData(OTA, utils.toWei(coinValue));
@@ -1406,6 +1407,7 @@ describe('Abnormal input test -- refund wancoin', function() {
         keyPairs = (await utils.computeOTAPPKeys(recipient1, OTA)).split('+');
         OTAMixSet = await utils.getOTAMixSet(OTA, OTASetSize);
         ringSignData = await utils.genRingSignData(recipient1, keyPairs[0], OTAMixSet.join('+'));
+        refundCoinData = utils.coinSC.refundCoin.getData(ringSignData, utils.toWei(coinValue));
     })
 
     beforeEach(async() => {
@@ -2204,7 +2206,6 @@ describe('Abnormal input test -- refund wancoin', function() {
         assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
     });
 
-
     it('TC1124: gas price is -20000000000000', async() => {
         var exception = null;
         try {
@@ -2245,6 +2246,47 @@ describe('Abnormal input test -- refund wancoin', function() {
         assert(exception != null, 'Exception should not be null');
         assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
     });
+*/
+    it('TC1127: refund twice from one OTA', async() => {
+        var exception = null;
+        const txObj = {
+            from: recipient1,
+            to: coinSCAddress,
+            data: refundCoinData,
+            gas: 4700000
+        }
+        txHash = null;
+        try {
+            txHash = await utils.sendTransaction(txObj);
+        } catch (e) {
+            exception = e;
+        }
+        assert(exception === null, 'Exception should be null, but is ' + exception);
+
+        let counter, receipt
+        counter = 0
+        while (counter < waitBlockNumber) {
+            let blockHash = await utils.promisify(cb => utils.filter.watch(cb))
+            receipt = await utils.getReceipt(txHash)
+            if (!receipt) {
+                counter++
+            } else {
+                blockNumber = utils.getBlockNumber()
+                break
+            }
+        }
+
+        try {
+            const txHash = await utils.sendTransaction(txObj);
+        } catch (e) {
+            exception = e;
+        }
+        expectExceptionMsg = 'OTA is reused';
+        assert(exception != null, 'Exception should not be null');
+        assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
+    });
+
+
 })
 
 describe('Stop Filter', function() {
