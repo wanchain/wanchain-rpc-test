@@ -2246,7 +2246,7 @@ describe('Abnormal input test -- refund wancoin', function() {
         assert(exception != null, 'Exception should not be null');
         assert(exception.message == expectExceptionMsg, 'exception is : ' + expectExceptionMsg + "; actual is:" + exception.message);
     });
-*/
+
     it('TC1127: refund twice from one OTA', async() => {
         var exception = null;
         const txObj = {
