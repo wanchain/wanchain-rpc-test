@@ -90,7 +90,7 @@ describe('block usedgas equilibrium', function() {
 
         // beginBlockNum = 75000;
     	//beginBlockNum = 103272;
-	    beginBlockNum = 108357;
+	    beginBlockNum = 1;
 
 		endBlockNum = -1;
 
@@ -102,7 +102,8 @@ describe('block usedgas equilibrium', function() {
 
 		console.log("begin:" + beginBlockNum + "; end:" + endBlockNum);
 
-		for (let i = beginBlockNum; i <= endBlockNum; i++) {
+    	let i = 0;
+		for (i = beginBlockNum; i <= endBlockNum; i++) {
 			console.log("begin block " + i);
 			var block = await utils.getBlock(i);
 			console.log(block);
@@ -113,6 +114,8 @@ describe('block usedgas equilibrium', function() {
 			var feeEqu = await IsGasAddToMiner(block, usedGasRet.totalGasFee);
             assert(feeEqu, "block used gas fee does not equilibrium to miner reward. blockNumber:" + i);
 		}
+
+    	assert(true, "success. last blocknum:" + i);
 	});
 })
 
