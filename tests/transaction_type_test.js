@@ -37,11 +37,11 @@ describe('transaction type checking', function() {
         await utils.unlockAccount(sender, "wanglu", 999999999);
         await utils.unlockAccount(recipient1, "wanglu", 999999999);
 
-		senderKeyA = {version:3, crypto:{"cipher":"aes-128-ctr","ciphertext":"9685d96c27432ed71aa927e72e850ed800171e3d253d1120ab5ab51b8d0c61b4","cipherparams":{"iv":"a37239a055e309a4c698e9c6a6fa8b9d"},"kdf":"scrypt","kdfparams":{"dklen":32,"n":262144,"p":1,"r":8,"salt":"e473ae4f8ad60cc9bd0619bcf5167cda8a8e7f7c4de28e07040d4aef57e022dc"},"mac":"0bbc9c5f2280e73140879dcc1fa4332d188eeb0adcf32e017e29c3c9abe2dc11"}};
-	    senderKeyB = {version:3, crypto:{"cipher":"aes-128-ctr","ciphertext":"34f8906be698c2d9f92ed27359f13640e378f868bb6b23d7dce0d8faae57082b","cipherparams":{"iv":"a5e9c9d657f826af0a94b33072eeafeb"},"kdf":"scrypt","kdfparams":{"dklen":32,"n":262144,"p":1,"r":8,"salt":"8a867946ee70befbb5be621f35bfbd2cc06a7f12d3b8c81cf3b3b8af9b269831"},"mac":"16651e17a54d2d90a0738dd263581345c6c231bc7dac797d68af0099f4c546d7"}};
+		senderKeyA = {version:3, crypto: crytoTextSenderA};
+	    senderKeyB = {version:3, crypto: crytoTextSenderB};
 
-    	recipientKeyA = {version:3, crypto:{"cipher":"aes-128-ctr","ciphertext":"924b7474186f9833d117ac1ef9a13c1c1105164a9dccaa37e2e8310b7a916287","cipherparams":{"iv":"5495d995974f1fbff4bb77fc15d21d41"},"kdf":"scrypt","kdfparams":{"dklen":32,"n":262144,"p":1,"r":8,"salt":"ae60b89e41fcc8758a11562c9b713e8ff0454fcdb5528631b0dccf16941cf4a0"},"mac":"a195ea735ddbdc7d9ac8b6856b74ed05bb6c12f318c692ae48e5de74d5b879ff"}};
-    	recipientKeyB = {version:3, crypto:{"cipher":"aes-128-ctr","ciphertext":"053edbb0d818056f5e0a9ba129802511859e6f5cc90b8a35f6e9d9e579daca54","cipherparams":{"iv":"b0b78edc5f336816593903270a34590d"},"kdf":"scrypt","kdfparams":{"dklen":32,"n":262144,"p":1,"r":8,"salt":"0df5d16a9433ca08990dc52d8a805f53fb506ce7c0b412c155da26859a112502"},"mac":"cf47ea5d057b240ea20e7ea303d18bbf0b948a544aa3c6d8aabec1a77fb5c597"}};
+    	recipientKeyA = {version:3, crypto: crytoTextRecipientA};
+    	recipientKeyB = {version:3, crypto: crytoTextRecipientB};
 
 		senderPrivKeyA = keythereum.recover("wanglu", senderKeyA);
     	senderPrivKeyB = keythereum.recover("wanglu", senderKeyB);
