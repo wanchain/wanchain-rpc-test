@@ -32,6 +32,17 @@ const getBalance2 = (account, blockNumber) =>
 		resolve(web3.eth.getBalance(account, blockNumber))
 	)
 
+const getTransactionCount = (account, blockNumber) =>
+	new Promise((resolve, reject) => {
+		web3.eth.getTransactionCount(account, blockNumber, (err, count) => {
+			if (err) {
+				console.log('getTransactionCount error: ', err)
+				reject(err)
+			}
+			resolve(count)
+		})
+	})
+
 const sendTransaction = (obj) =>
 	new Promise((resolve, reject) => {
 		web3.eth.sendTransaction(obj, (err, hash) => {
@@ -44,7 +55,19 @@ const sendTransaction = (obj) =>
 			resolve(hash)
 		})
 	})
-	
+
+
+const sendRawTransaction = (encodedTx) =>
+	new Promise((resolve, reject) => {
+		web3.eth.sendRawTransaction(encodedTx, (err, hash) => {
+			if (err) {
+				console.log('sendRawTransaction error: ', err)
+				reject(err)
+			}
+			resolve(hash)
+		})
+	})
+
 const sendPrivacyCxtTransaction = (obj, pwd) => 
 	new Promise((resolve, reject) => {
 		web3.wan.sendPrivacyCxtTransaction(obj, pwd, (err, hash) => {
@@ -186,10 +209,12 @@ module.exports = {
 	promisify,
 	unlockAccount,
 	sendTransaction,
+    sendRawTransaction,
 	sendPrivacyCxtTransaction, 
 	computeOTAPPKeys,
 	getBalance,
     getBalance2,
+    getTransactionCount,
 	getWanAddress,
 	genOTA,
 	getOTABalance,

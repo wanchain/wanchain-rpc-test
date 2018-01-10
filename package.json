@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "bignumber.js": "^5.0.0",
+    "keythereum": "^1.0.2",
     "wanchain-util": "git+https://github.com/wanchain/wanchain-util.git",
     "web3": "^0.20.0"
   }
