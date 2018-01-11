@@ -1,4 +1,4 @@
-const {accounts, protocol, host, port, coinSCAddress, stampSCAddress, tokenSCAddress, stampFaceValue, waitBlockNumber, OTASetSize, tokenValue} = require('../config')
+const {accounts, protocol, host, port, coinSCAddress, tokenTransferGasPrice, stampSCAddress, tokenSCAddress, stampFaceValue, waitBlockNumber, OTASetSize, tokenValue} = require('../config')
 const utils = require('../utils')
 const assert = require('chai').assert
 const expect = require('chai').expect
@@ -2517,9 +2517,9 @@ describe('Anonymous Alt-Token Transfer - [TC2061]: genRingSignData with hashMsg 
 			err = e
 		}
 
+        assert(err != null, 'err should not be null');
 		assert.equal(err.message, 'invalid ring signed info')
-	
-	})
+    })
 })
 
 describe('Anonymous Alt-Token Transfer - [TC2062]: genRingSignData with truncated hashMsg', function() {
@@ -2678,7 +2678,7 @@ describe('Anonymous Alt-Token Transfer - [TC2062]: genRingSignData with truncate
 		otaTransferData = utils.tokenSC.otatransfer.getData(tokenRecipient, OTAAltTokenRecipient, utils.toWei(tokenValue))
 		otaTransferData.should.be.a('string')
 	})
-
++
 	it('should generate stampRingSignData', async() => {
 		const l = tokenSender.length
 		stampRingSignData = await utils.genRingSignData(tokenSender.substring(0, l - 8), skOTAStamp, StampOTAMixSet.join('+'))
@@ -2707,6 +2707,7 @@ describe('Anonymous Alt-Token Transfer - [TC2062]: genRingSignData with truncate
 			err = e
 		}
 
+        assert(err != null, 'err should not be null');
 		assert.equal(err.message, 'invalid ring signed info')
 	
 	})
@@ -2896,6 +2897,7 @@ describe('Anonymous Alt-Token Transfer - [TC2063]: genRingSignData with expanded
 			err = e
 		}
 
+        assert(err != null, 'err should not be null');
 		assert.equal(err.message, 'invalid ring signed info')
 	
 	})
@@ -3085,6 +3087,7 @@ describe('Anonymous Alt-Token Transfer - [TC2064]: genRingSignData with tampered
 			err = e
 		}
 
+        assert(err != null, 'err should not be null');
 		assert.equal(err.message, 'invalid ring signed info')
 	
 	})
@@ -5042,6 +5045,7 @@ describe('Anonymous Alt-Token Transfer - [TC2111]: combinedData with illegal tru
 			err = e
 		}
 
+        assert(err != null, 'err should not be null');
 		assert.equal(err.message, 'invalid ring signed info')
 	
 	})
@@ -5789,8 +5793,8 @@ describe('Anonymous Alt-Token Transfer - [TC2116]: combinedData with empty cxtIn
 	})
 
 	it('should transfer correct quantity of alt-tokens to OATAltTokenReceipt', async() => {
-		console.log("sender's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
-		console.log("recipient's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
+		// console.log("sender's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
+		// console.log("recipient's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
 		const txObj = {
 			from: tokenSender,
 			to: tokenSCAddress,
@@ -5817,8 +5821,8 @@ describe('Anonymous Alt-Token Transfer - [TC2116]: combinedData with empty cxtIn
 		}
 
 		fee = utils.times(txInfo.gasPrice.toNumber(), receipt.gasUsed)
-		console.log("sender's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
-		console.log("recipient's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
+		// console.log("sender's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
+		// console.log("recipient's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
 		assert.equal(utils.fromWei(fee), stampFaceValue)
 	})
 })
@@ -5991,8 +5995,8 @@ describe('Anonymous Alt-Token Transfer - [TC2117]: combinedData with "0x" cxtInt
 	})
 
 	it('should transfer correct quantity of alt-tokens to OATAltTokenReceipt', async() => {
-		console.log("sender's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
-		console.log("recipient's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
+		// console.log("sender's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
+		// console.log("recipient's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
 		const txObj = {
 			from: tokenSender,
 			to: tokenSCAddress,
@@ -6019,8 +6023,8 @@ describe('Anonymous Alt-Token Transfer - [TC2117]: combinedData with "0x" cxtInt
 		}
 
 		fee = utils.times(txInfo.gasPrice.toNumber(), receipt.gasUsed)
-		console.log("sender's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
-		console.log("recipient's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
+		// console.log("sender's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
+		// console.log("recipient's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
 		assert.equal(utils.fromWei(fee), stampFaceValue)
 		// assert.equal(utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)), tokenValue)
 	})
@@ -6191,15 +6195,15 @@ describe('Anonymous Alt-Token Transfer - [TC2118]: combinedData with truncated c
 	it('should generate combined data', () => {
 		let l = otaTransferData.length
 		truncatedOtaTransferData = otaTransferData.substring(0, 128)
-		console.log('otaTransferData: ', otaTransferData)
-		console.log('truncatedOtaTransferData: ', truncatedOtaTransferData)
+		// console.log('otaTransferData: ', otaTransferData)
+		// console.log('truncatedOtaTransferData: ', truncatedOtaTransferData)
 		combinedData = utils.glueSC.combine.getData(stampRingSignData, truncatedOtaTransferData)
 		combinedData.should.be.a('string')
 	})
 
 	it('should transfer correct quantity of alt-tokens to OATAltTokenReceipt', async() => {
-		console.log("sender's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
-		console.log("recipient's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
+		// console.log("sender's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
+		// console.log("recipient's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
 		const txObj = {
 			from: tokenSender,
 			to: tokenSCAddress,
@@ -6226,8 +6230,8 @@ describe('Anonymous Alt-Token Transfer - [TC2118]: combinedData with truncated c
 		}
 
 		fee = utils.times(txInfo.gasPrice.toNumber(), receipt.gasUsed)
-		console.log("sender's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
-		console.log("recipient's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
+		// console.log("sender's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
+		// console.log("recipient's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
 		assert.equal(utils.fromWei(fee), stampFaceValue)
 		// assert.equal(utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)), tokenValue)
 	})
@@ -6398,15 +6402,15 @@ describe('Anonymous Alt-Token Transfer - [TC2119]: combinedData with expanded cx
 	it('should generate combined data', () => {
 		let l = otaTransferData.length
 		truncatedOtaTransferData = otaTransferData.substring(0, 128)
-		console.log('otaTransferData: ', otaTransferData)
-		console.log('truncatedOtaTransferData: ', truncatedOtaTransferData)
+		// console.log('otaTransferData: ', otaTransferData)
+		// console.log('truncatedOtaTransferData: ', truncatedOtaTransferData)
 		combinedData = utils.glueSC.combine.getData(stampRingSignData, otaTransferData + 'e123456789aaaaaaaaaa')
 		combinedData.should.be.a('string')
 	})
 
 	it('should transfer correct quantity of alt-tokens to OATAltTokenReceipt', async() => {
-		console.log("sender's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
-		console.log("recipient's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
+		// console.log("sender's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
+		// console.log("recipient's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
 		const txObj = {
 			from: tokenSender,
 			to: tokenSCAddress,
@@ -6433,8 +6437,8 @@ describe('Anonymous Alt-Token Transfer - [TC2119]: combinedData with expanded cx
 		}
 
 		fee = utils.times(txInfo.gasPrice.toNumber(), receipt.gasUsed)
-		console.log("sender's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
-		console.log("recipient's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
+		// console.log("sender's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
+		// console.log("recipient's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
 		assert.equal(utils.fromWei(fee), stampFaceValue)
 		// assert.equal(utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)), tokenValue)
 	})
@@ -6612,8 +6616,8 @@ describe('Anonymous Alt-Token Transfer - [TC2120]: combinedData with tampered cx
 	})
 
 	it('should transfer correct quantity of alt-tokens to OATAltTokenReceipt', async() => {
-		console.log("sender's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
-		console.log("recipient's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
+		// console.log("sender's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
+		// console.log("recipient's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
 		const txObj = {
 			from: tokenSender,
 			to: tokenSCAddress,
@@ -6640,8 +6644,8 @@ describe('Anonymous Alt-Token Transfer - [TC2120]: combinedData with tampered cx
 		}
 
 		fee = utils.times(txInfo.gasPrice.toNumber(), receipt.gasUsed)
-		console.log("sender's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
-		console.log("recipient's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
+		// console.log("sender's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
+		// console.log("recipient's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
 		assert.equal(utils.fromWei(fee), stampFaceValue)
 		// assert.equal(utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)), tokenValue)
 	})
@@ -6819,8 +6823,8 @@ describe('Anonymous Alt-Token Transfer - [TC2121]: combinedData with numerical c
 	})
 
 	it('should transfer correct quantity of alt-tokens to OATAltTokenReceipt', async() => {
-		console.log("sender's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
-		console.log("recipient's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
+		// console.log("sender's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
+		// console.log("recipient's token balance before privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
 		const txObj = {
 			from: tokenSender,
 			to: tokenSCAddress,
@@ -6847,8 +6851,8 @@ describe('Anonymous Alt-Token Transfer - [TC2121]: combinedData with numerical c
 		}
 
 		fee = utils.times(txInfo.gasPrice.toNumber(), receipt.gasUsed)
-		console.log("sender's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
-		console.log("recipient's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
+		// console.log("sender's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenSender)))
+		// console.log("recipient's token balance after privacyTransaction: ", utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)))
 		assert.equal(utils.fromWei(fee), stampFaceValue)
 		// assert.equal(utils.fromWei(utils.tokenSC.otabalanceOf(tokenRecipient)), tokenValue)
 	})
