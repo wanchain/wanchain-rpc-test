@@ -61,7 +61,9 @@ const sendRawTransaction = (encodedTx) =>
 	new Promise((resolve, reject) => {
 		web3.eth.sendRawTransaction(encodedTx, (err, hash) => {
 			if (err) {
-				console.log('sendRawTransaction error: ', err)
+                if (debug) {
+                    console.log('sendRawTransaction error: ', err)
+                }
 				reject(err)
 			}
 			resolve(hash)

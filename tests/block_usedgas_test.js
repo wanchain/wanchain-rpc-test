@@ -1,4 +1,4 @@
-const {accounts, protocol, host, port, coinSCAddress, coinValue, waitBlockNumber, OTASetSize} = require('../config')
+const {accounts, protocol, host, port, coinSCAddress, coinValue, waitBlockNumber, OTASetSize, debug} = require('../config')
 const utils = require('../utils')
 const assert = require('chai').assert
 const expect = require('chai').expect
@@ -27,30 +27,35 @@ async function IsBlockGasusedEqualTotalTxUsed(block) {
 	var txTotalUsedGas = 0;
 	var txTotalGasFee = utils.toBig(0);
 	for (i = 0; i < block.transactions.length; i++) {
-        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        console.log("tx hash:" + block.transactions[i]);
+		if (debug) {
+            console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            console.log("tx hash:" + block.transactions[i]);
+        }
 
 		tx = await utils.getTransaction(block.transactions[i]);
         if (tx == null) {
             throw "get tx fail. txhash:" + block.transactions[i];
         }
-
-        console.log("tx:");
-        console.log(tx);
+		if (debug) {
+            console.log("tx:");
+            console.log(tx);
+        }
 
         txReceipt = await utils.getReceipt(block.transactions[i]);
 		if (txReceipt == null) {
 			throw "get receipt fail. txhash:" + block.transactions[i];
 		}
-
-		console.log("tx receipt:");
-		console.log(txReceipt);
+		if (debug) {
+            console.log("tx receipt:");
+            console.log(txReceipt);
+        }
 
 		txTotalUsedGas += txReceipt.gasUsed;
         txTotalGasFee = txTotalGasFee.plus(utils.toBig(txReceipt.gasUsed).times(tx.gasPrice));
 	}
-
-	console.log("block.gasUsed:" + block.gasUsed + ", txTotalUsedGas:" + txTotalUsedGas);
+	if (debug) {
+        console.log("block.gasUsed:" + block.gasUsed + ", txTotalUsedGas:" + txTotalUsedGas);
+    }
 	return {equ: (txTotalUsedGas == block.gasUsed), totalGasFee: txTotalGasFee};
 }
 
@@ -61,13 +66,19 @@ async function IsGasAddToMiner(block, totalGasFee) {
 	}
 
 	var minerPreBalance = await utils.getBalance2(block.miner, preBlockNumber);
-    console.log("miner:" + block.miner + ", preBlockNum:" + preBlockNumber + ", preBalance:" + minerPreBalance);
+    if (debug) {
+        console.log("miner:" + block.miner + ", preBlockNum:" + preBlockNumber + ", preBalance:" + minerPreBalance);
+    }
 
     var minerBalance = await utils.getBalance2(block.miner, block.number);
-    console.log("miner:" + block.miner + ", blockNum:" + block.number + ", balance:" + minerBalance);
+    if (debug) {
+        console.log("miner:" + block.miner + ", blockNum:" + block.number + ", balance:" + minerBalance);
+    }
 
     increment = utils.toBig(minerBalance).minus(minerPreBalance);
-    console.log("minerBalance - minerPreBalance:" + increment.toString() + ", totalGasFee:" + totalGasFee.toString())
+    if (debug) {
+        console.log("minerBalance - minerPreBalance:" + increment.toString() + ", totalGasFee:" + totalGasFee.toString())
+    }
     return increment.equals(totalGasFee);
 }
 
@@ -80,18 +91,7 @@ describe('block usedgas equilibrium', function() {
 	})
 
     it('should return correct balance of receipt1', async() => {
-
-		// prompt.start();
-		// prompt.get(['begin', 'end'], function (err, result) {
-		// 	beginBlockNum = result.begin;
-		// 	endBlockNum = result.end;
-		// });
-		//
-
-        // beginBlockNum = 75000;
-    	//beginBlockNum = 103272;
-	    beginBlockNum = 1;
-
+	    beginBlockNum = 7000;
 		endBlockNum = -1;
 
 		var lastBlockNum = utils.getBlockNumber();
@@ -104,9 +104,11 @@ describe('block usedgas equilibrium', function() {
 
     	let i = 0;
 		for (i = beginBlockNum; i <= endBlockNum; i++) {
-			console.log("begin block " + i);
 			var block = await utils.getBlock(i);
-			console.log(block);
+            if (debug) {
+                console.log("begin block " + i);
+                console.log(block);
+            }
 
 			var usedGasRet = await IsBlockGasusedEqualTotalTxUsed(block);
 			assert(usedGasRet.equ, "block usedgas does not equilibrium. blockNumber:" + i);
@@ -118,5 +120,4 @@ describe('block usedgas equilibrium', function() {
     	assert(true, "success. last blocknum:" + i);
 	});
 })
-
 

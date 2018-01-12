@@ -8177,3 +8177,8 @@ describe('Anonymous Alt-Token Transfer - [TC2129]: sendPrivacyCxtTransaction wit
 	})
 })
 
+describe('Stop Filter', function() {
+    it('should stop filter', () => {
+        utils.filter.stopWatching()
+    })
+})

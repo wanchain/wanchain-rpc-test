@@ -1355,3 +1355,9 @@ describe('Anonymous Alt-Token Transfer', function() {
 
 
 })
+
+describe('Stop Filter', function() {
+    it('should stop filter', () => {
+        utils.filter.stopWatching()
+    })
+})
